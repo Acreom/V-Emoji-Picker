@@ -43,17 +43,26 @@ export default class InputSearch extends Vue {
   box-sizing: border-box;
   width: 100%;
   margin: 5px 0;
-  padding: 0 5%;
 
   input {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12.37px;
+    line-height: 18px;
+    letter-spacing: -0.01em;
     width: 100%;
-    font-size: 14px;
     padding: 6px 8px;
     box-sizing: border-box;
     border-radius: 8px;
-    background: var(--ep-color-sbg);
-    color: var(--ep-color-text);
-    border: 1px solid var(--ep-color-border);
+    border: 1px solid #3e4856;
+    background: rgba(#1e232d, 0.83);
+    -webkit-backdrop-filter: blur(12px); /* Safari 9+ */
+    backdrop-filter: blur(12px); /* Chrome and Opera */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.06),
+    0px 12px 50px rgba(0, 0, 0, 0.05),
+    inset 0px 0px 0px 1px rgba(241, 241, 241, 0.02);
+    color: white;
+    outline: none;
   }
 }
 </style>

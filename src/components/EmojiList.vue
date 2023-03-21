@@ -151,7 +151,7 @@ export default class EmojiList extends Vue {
 .container-emoji {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 350px;
+  height: 220px;
 }
 
 .grid-emojis {

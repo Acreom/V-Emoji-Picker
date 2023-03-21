@@ -15,11 +15,11 @@ export default class CategoryLabel extends Vue {
 .category-title {
   text-transform: uppercase;
   font-size: 0.8em;
-  padding: 5px 0 0 16px;
+  padding: 5px 0 0 2px;
   color: #676666;
 
   &:not(:first-of-type) {
-    padding: 10px 0 0 16px;
+    padding: 10px 0 0 2px;
   }
 }
 </style>

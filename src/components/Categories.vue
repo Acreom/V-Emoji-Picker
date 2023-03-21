@@ -40,29 +40,27 @@ export default class Categories extends Vue {
   flex-direction: row;
   align-items: center;
   border-bottom: 1px solid var(--ep-color-border);
-  background: var(--ep-color-bg);
+  background: none;
   overflow-x: auto;
 }
 
 .category {
   flex: 1;
-  padding: 5px;
+  padding: 2px;
   text-align: center;
   cursor: pointer;
 
   &.active {
-    border-bottom: 3px solid var(--ep-color-active);
-    filter: saturate(3);
-    padding-bottom: 2px;
+    border-bottom: 2px solid var(--ep-color-active);
+    padding-bottom: 0;
   }
 
   & > img {
-    width: 22px;
-    height: 22px;
+    width: 14px;
+    height: 14px;
   }
 
   &:hover {
-    filter: saturate(3);
   }
 }
 </style>

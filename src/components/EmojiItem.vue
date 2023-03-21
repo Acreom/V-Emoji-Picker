@@ -32,12 +32,15 @@ export default class EmojiItem extends Vue {
   box-sizing: content-box;
   overflow: hidden;
   transition: transform 0.2s;
-
-  cursor: pointer;
+  cursor: default;
 
   &:hover {
-    transform: scale(1.05);
+    background: rgba(#d0d5dc, 0.13);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.06),
+    0px 12px 50px rgba(0, 0, 0, 0.05),
+    inset 0px 0px 0px 1px rgba(241, 241, 241, 0.02);
   }
+
 }
 
 .border:hover {

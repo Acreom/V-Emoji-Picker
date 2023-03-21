@@ -48,9 +48,9 @@ export default class VEmojiPicker extends Vue {
   @Prop({ default: () => emojisDefault }) customEmojis!: IEmoji[];
   @Prop({ default: () => categoriesDefault }) customCategories!: ICategory[];
   @Prop({ default: 15 }) limitFrequently!: number;
-  @Prop({ default: 5 }) emojisByRow!: number;
+  @Prop({ default: 8 }) emojisByRow!: number;
   @Prop({ default: false }) continuousList!: boolean;
-  @Prop({ default: 32 }) emojiSize!: number;
+  @Prop({ default: 20 }) emojiSize!: number;
   @Prop({ default: true }) emojiWithBorder!: boolean;
   @Prop({ default: true }) showSearch!: boolean;
   @Prop({ default: true }) showCategories!: boolean;
@@ -168,13 +168,14 @@ export default class VEmojiPicker extends Vue {
 }
 </script>
 
+
 <style lang="scss" scoped>
 .emoji-picker {
   --ep-color-bg: #f0f0f0;
   --ep-color-sbg: #f6f6f6;
-  --ep-color-border: #e4e4e4;
+  --ep-color-border: #3e4856;
   --ep-color-text: #4a4a4a;
-  --ep-color-active: #009688;
+  --ep-color-active: #64D7DE;
 
   display: inline-flex;
   -webkit-font-smoothing: antialiased;
@@ -182,23 +183,19 @@ export default class VEmojiPicker extends Vue {
   text-rendering: optimizeSpeed;
   flex-direction: column;
   align-items: center;
-  background-color: var(--ep-color-bg);
+  background: none;
   border-radius: 4px;
-  border: 1px solid var(--ep-color-border);
+  border: none;
   overflow: hidden;
-  width: 325px;
+  width: 250px;
   user-select: none;
-
-  @media screen and (max-width: 325px) {
-    width: 100%;
-  }
 }
 
 .dark {
-  --ep-color-bg: #191B1A;
-  --ep-color-sbg: #212221;
-  --ep-color-border: #3E3D42;
-  --ep-color-text: #f0f0f0;
-  --ep-color-active: #009688;
+  --ep-color-bg: #f0f0f0;
+  --ep-color-sbg: #f6f6f6;
+  --ep-color-border: #3e4856;
+  --ep-color-text: #4a4a4a;
+  --ep-color-active: #64D7DE;
 }
 </style>
