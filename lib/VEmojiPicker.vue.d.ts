@@ -31,6 +31,8 @@ export default class VEmojiPicker extends Vue {
     get categoriesFiltered(): ICategory[];
     onSelectEmoji(emoji: IEmoji): Promise<IEmoji>;
     onChangeCategory(category: ICategory): Promise<ICategory>;
+    onMounted(): void;
     onChangeCustomEmojis(newEmojis: IEmoji[]): void;
+    mounted(): void;
 }
 //# sourceMappingURL=VEmojiPicker.vue?rollup-plugin-vue=script.d.ts.map

@@ -158,12 +158,20 @@ export default class VEmojiPicker extends Vue {
     return category;
   }
 
+  @Emit("ready")
+  onMounted() {
+  }
+
   @Watch("customEmojis")
   onChangeCustomEmojis(newEmojis: IEmoji[]) {
     if (newEmojis && newEmojis.length) {
       this.mapEmojis = {};
       this.mapperEmojisCategory(newEmojis);
     }
+  }
+
+  mounted() {
+    this.onMounted();
   }
 }
 </script>
