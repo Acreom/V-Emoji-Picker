@@ -16,7 +16,7 @@ export default class CategoryLabel extends Vue {
   text-transform: uppercase;
   font-size: 0.8em;
   padding: 5px 0 0 2px;
-  color: #676666;
+  color: #4a4a4a;
 
   &:not(:first-of-type) {
     padding: 10px 0 0 2px;

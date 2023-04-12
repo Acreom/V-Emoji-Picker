@@ -14,7 +14,6 @@
       :emojiWithBorder="emojiWithBorder"
       :emojiSize="emojiSize"
       :emojisByRow="emojisByRow"
-      :continuousList="continuousList"
       :hasSearch="showSearch"
       @select="onSelectEmoji"
     />
@@ -49,7 +48,6 @@ export default class VEmojiPicker extends Vue {
   @Prop({ default: () => categoriesDefault }) customCategories!: ICategory[];
   @Prop({ default: 15 }) limitFrequently!: number;
   @Prop({ default: 8 }) emojisByRow!: number;
-  @Prop({ default: false }) continuousList!: boolean;
   @Prop({ default: 20 }) emojiSize!: number;
   @Prop({ default: true }) emojiWithBorder!: boolean;
   @Prop({ default: true }) showSearch!: boolean;
@@ -158,20 +156,12 @@ export default class VEmojiPicker extends Vue {
     return category;
   }
 
-  @Emit("ready")
-  onMounted() {
-  }
-
   @Watch("customEmojis")
   onChangeCustomEmojis(newEmojis: IEmoji[]) {
     if (newEmojis && newEmojis.length) {
       this.mapEmojis = {};
       this.mapperEmojisCategory(newEmojis);
     }
-  }
-
-  mounted() {
-    this.onMounted();
   }
 }
 </script>

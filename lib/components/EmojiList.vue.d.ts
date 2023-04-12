@@ -9,17 +9,24 @@ export default class EmojiList extends Vue {
     continuousList: boolean;
     category: string;
     hasSearch: boolean;
+    width: number;
+    height: number;
     searchByAlias(term: string, emoji: Emoji): boolean;
     calcScrollTop(): 88 | 44;
-    get gridDynamic(): {
-        gridTemplateColumns: string;
+    scrollTo(top: number): void;
+    getRelevantEmojis(category: string): any;
+    get emojis(): any[];
+    cellSizeAndPositionGetterList(item: any, index: number): {
+        width: number;
+        height: number;
+        x: number;
+        y: number;
     };
-    get dataFiltered(): any;
-    get dataFilteredByCategory(): any;
     get categories(): any;
     get containerEmoji(): any;
     onSelect(emoji: Emoji): Emoji;
     onDataChanged(): void;
     onCategoryChanged(newValue: any): void;
+    mounted(): void;
 }
 //# sourceMappingURL=EmojiList.vue?rollup-plugin-vue=script.d.ts.map

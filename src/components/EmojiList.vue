@@ -1,33 +1,26 @@
 <template>
   <div id="Emojis">
     <div ref="container-emoji" class="container-emoji">
-      <template v-if="continuousList">
-        <div v-for="(category, category_name) in dataFilteredByCategory" :key="category_name">
-          <CategoryLabel v-show="category.length" :name="category_name" :ref="category_name" />
-          <div v-if="category.length" class="grid-emojis" :style="gridDynamic">
-            <EmojiItem
-              v-for="(emoji, index_e) in category"
-              :key="`${category_name}-${index_e}`"
-              :emoji="emoji"
-              :size="emojiSize"
-              :withBorder="emojiWithBorder"
-              @click.native="onSelect(emoji)"
-            />
-          </div>
-        </div>
-      </template>
-      <template v-else>
-        <div class="grid-emojis" :style="gridDynamic">
+      <VirtualCollection
+        ref="virtualCollection"
+        :cell-size-and-position-getter="cellSizeAndPositionGetterList"
+        :collection="emojis"
+        :width="width"
+        :height="height"
+        :header-slot-height="0"
+      >
+        <div slot="cell" :ref="`${props.data.id}`" slot-scope="props">
+          <CategoryLabel v-if="props.data.category" :name="props.data.label"  />
           <EmojiItem
-            v-for="(emoji, index) in dataFiltered"
-            :key="index"
-            :emoji="emoji"
+            v-if="props.data.emoji"
+            :key="`${props.data.category}-${props.data.index}`"
+            :emoji="props.data.emoji"
             :size="emojiSize"
             :withBorder="emojiWithBorder"
-            @click.native="onSelect(emoji)"
+            @click.native="onSelect(props.data.emoji)"
           />
         </div>
-      </template>
+      </VirtualCollection>
     </div>
   </div>
 </template>
@@ -38,11 +31,12 @@ import { Emoji } from "@/models/Emoji";
 
 import EmojiItem from "./EmojiItem.vue";
 import CategoryLabel from "./CategoryLabel.vue";
+import {Category} from "@/models/Category";
 
 @Component({
   components: {
     EmojiItem,
-    CategoryLabel
+    CategoryLabel,
   }
 })
 export default class EmojiList extends Vue {
@@ -55,9 +49,11 @@ export default class EmojiList extends Vue {
   @Prop({}) category!: string;
   @Prop({}) hasSearch!: boolean;
 
+  width: number = 0;
+  height: number = 0;
+
   searchByAlias(term: string, emoji: Emoji) {
     const isRelevant = (alias: string) => alias.toLowerCase().includes(term);
-
     return emoji.aliases.some((alias: string) => isRelevant(alias));
   }
 
@@ -65,39 +61,71 @@ export default class EmojiList extends Vue {
     return this.hasSearch ? 88 : 44;
   }
 
-  get gridDynamic() {
-    const percent = 100 / this.emojisByRow;
-    return {
-      gridTemplateColumns: `repeat(${this.emojisByRow}, ${percent}%)`
-    };
+  scrollTo(top: number) {
+    // @ts-ignore
+    this.$refs['container-emoji'].firstElementChild?.scrollTo({
+      top,
+      behavior: 'instant',
+    });
   }
 
-  get dataFiltered() {
-    let data = this.data[this.category];
+  getRelevantEmojis(category: string) {
     const searchValue = this.filter.trim().toLowerCase();
-
     if (searchValue) {
-      data = data.filter((emoji: Emoji) =>
+      return this.data[category].filter((emoji: Emoji) =>
         this.searchByAlias(searchValue, emoji)
       );
     }
-
-    return data;
+    else {
+      return this.data[category];
+    }
   }
 
-  get dataFilteredByCategory() {
-    let _data = Object.assign({}, this.data);
-    const searchValue = this.filter.trim().toLowerCase();
+  get emojis() {
+    let index = 0;
+    let offsetTop = 0;
+    let categoryIndex = 0;
+    let flattenedList: any[] = [];
 
-    if (searchValue) {
-      this.categories.forEach((category: string) => {
-        _data[category] = this.data[category].filter((item: Emoji) =>
-          this.searchByAlias(searchValue, item)
-        );
-      });
-    }
+    this.categories.forEach((category: string) => {
+      index = 0;
+      if (this.getRelevantEmojis(category).length) {
+        flattenedList.push({
+          data: {
+            id: category,
+            label: category,
+            category: true,
+            index: categoryIndex,
+            x: 0,
+            y: offsetTop
+          }
+        });
+        offsetTop++;
+        this.getRelevantEmojis(category).forEach((emoji: Emoji) => {
+          flattenedList.push({
+            data: {
+              emoji,
+              emojiCategory: emoji.category,
+              id: emoji.data,
+              x: (index % this.emojisByRow),
+              y: offsetTop + Math.floor(index / this.emojisByRow)
+            }
+          });
+          index++;
+        });
+        offsetTop = offsetTop + Math.ceil(index / this.emojisByRow);
+      }
+    });
+    return flattenedList;
+  }
 
-    return _data;
+  cellSizeAndPositionGetterList(item: any, index: number) {
+      return {
+        width: this.emojiSize,
+        height: this.emojiSize,
+        x: item.data.x * (this.emojiSize + 11),
+        y: item.data.y * (this.emojiSize + 11),
+      };
   }
 
   get categories(): any {
@@ -120,12 +148,15 @@ export default class EmojiList extends Vue {
 
   @Watch("category")
   onCategoryChanged(newValue: any) {
-    if (this.continuousList) {
-      const categoryEl = (this.$refs[newValue] as any)[0].$el;
+    const element = this.emojis.find((element: any) => element.data.category && element.data.id === newValue);
+    this.scrollTo(element.data.y * (this.emojiSize + 11))
+  }
 
-      this.containerEmoji.scrollTop =
-        categoryEl.offsetTop - this.calcScrollTop();
-    }
+  mounted() {
+    // @ts-ignore
+    this.width = this.$refs['container-emoji']?.offsetWidth;
+    // @ts-ignore
+    this.height = this.$refs['container-emoji']?.offsetHeight;
   }
 }
 </script>
