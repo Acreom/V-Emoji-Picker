@@ -1,5 +1,9 @@
 import { Vue } from "vue-property-decorator";
 export default class InputSearch extends Vue {
+    focusOnOpen: boolean;
+    $refs: {
+        input: HTMLInputElement;
+    };
     inputSearch: string;
     onInputChanged(newValue: any, old: any): void;
     get placeholder(): {
@@ -16,5 +20,6 @@ export default class InputSearch extends Vue {
             Places: string;
         };
     };
+    mounted(): void;
 }
 //# sourceMappingURL=InputSearch.vue?rollup-plugin-vue=script.d.ts.map

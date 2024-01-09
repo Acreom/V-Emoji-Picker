@@ -6,7 +6,7 @@
       :current="currentCategory"
       @select="changeCategory"
     />
-    <InputSearch v-if="showSearch" @update="onSearch" />
+    <InputSearch v-if="showSearch" :focus-on-open="focusSearchOnOpen" @update="onSearch" />
     <EmojiList
       :data="mapEmojis"
       :category="currentCategory"
@@ -54,6 +54,7 @@ export default class VEmojiPicker extends Vue {
   @Prop({ default: true }) showCategories!: boolean;
   @Prop({ default: false }) dark!: boolean;
   @Prop({ default: "Peoples" }) initialCategory!: string;
+  @Prop({ default: true }) focusSearchOnOpen!: boolean;
   @Prop({ default: () => [] as ICategory[] }) exceptCategories!: ICategory[];
   @Prop({ default: () => [] as Emoji[] }) exceptEmojis!: IEmoji[];
   @Prop({}) i18n!: Object;

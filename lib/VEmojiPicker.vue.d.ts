@@ -13,6 +13,7 @@ export default class VEmojiPicker extends Vue {
     showCategories: boolean;
     dark: boolean;
     initialCategory: string;
+    focusSearchOnOpen: boolean;
     exceptCategories: ICategory[];
     exceptEmojis: IEmoji[];
     i18n: Object;

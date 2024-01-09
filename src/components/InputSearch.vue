@@ -1,7 +1,7 @@
 <template>
   <div id="InputSearch">
     <div class="container-search">
-      <input type="text" v-model="inputSearch" :placeholder="placeholder" />
+      <input type="text" ref="input" v-model="inputSearch" :placeholder="placeholder" />
     </div>
   </div>
 </template>
@@ -15,6 +15,13 @@ let listenInput: number;
 
 @Component({})
 export default class InputSearch extends Vue {
+  @Prop({ required: true })
+  focusOnOpen!: boolean;
+
+  $refs!: {
+    input: HTMLInputElement;
+  }
+
   inputSearch = "";
 
   @Watch("inputSearch")
@@ -26,6 +33,16 @@ export default class InputSearch extends Vue {
 
   get placeholder() {
     return t("search");
+  }
+
+  mounted() {
+    if (this.focusOnOpen) {
+      this.$nextTick(() => {
+        this.$refs.input.focus({
+          preventScroll: true,
+        });
+      });
+    }
   }
 }
 </script>
